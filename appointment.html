@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appointment Details</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1, h2 {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .appointment-details {
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+  
+  .appointment-details table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .appointment-details th, .appointment-details td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+    min-width: 100px;
+    max-width: 200px;
+    word-break: break-all;
+  }
+
+  .appointment-details th {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  .appointment-details td {
+    background-color: #f9f9f9;
+  }
+
+  /* Style for the menu bar */
+  .menu-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .menu-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .menu-bar li {
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  .menu-bar li:last-child {
+    margin-right: 0;
+  }
+
+  .menu-bar a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .menu-bar a:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  /* Style for the dropdown menu */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px;
+    padding: 8px 0;
+    overflow: hidden;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .dropdown-content li {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .dropdown-content li:hover {
+    background-color: #ddd;
+  }
+
+  /* Style for the horizontal lines */
+  .horizontal-line {
+    border-top: 2px solid #333;
+    width: 20px;
+    margin: 4px auto;
+  }
+
+  /* Hover effect for table rows */
+  .appointment-details tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  /* Table responsiveness */
+  @media screen and (max-width: 600px) {
+    .appointment-details table {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="menu-bar">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+    <li class="dropdown" id="menu-button">
+      <div class="horizontal-line"></div>
+      <div class="horizontal-line"></div>
+      <div class="horizontal-line"></div>
+      <div class="dropdown-content" id="user-dropdown">
+        <ul id="user-list"></ul>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="container">
+  <h1>Booked Appointment Details</h1>
+  <div class="appointment-details" id="appointment-details">
+    <table id="appointment-table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Hospital</th>
+          <th>Doctor</th>
+          <th>Time Slot</th>
+          <th>Location Notification</th>
+        </tr>
+      </thead>
+      <tbody id="appointment-body">
+        <!-- Appointments will be dynamically added here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // Retrieve appointment details from localStorage
+  const appointments = JSON.parse(localStorage.getItem('loggedInUsers')) || [];
+  
+  // Display appointments
+  const appointmentTable = document.getElementById('appointment-body');
+  appointments.forEach(appointment => {
+    const newRow = appointmentTable.insertRow();
+    newRow.innerHTML = `
+      <td>${appointment.username}</td>
+      <td>${appointment.password}</td>
+      <td>${appointment.hospital}</td>
+      <td>${appointment.doctor}</td>
+      <td>${appointment.timeSlot}</td>
+      <td>${appointment.locationNotification ? 'Enabled' : 'Disabled'}</td>`;
+  });
+
+  // Display the list of logged in patients in the dropdown menu
+  const userList = document.getElementById('user-list');
+  userList.innerHTML = appointments.map(appointment => `<li>${appointment.username}</li>`).join('');
+
+  // Toggle dropdown menu when clicked
+  document.getElementById('menu-button').addEventListener('click', function() {
+    const dropdownContent = document.getElementById('user-dropdown');
+    dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+  });
+</script>
+
+</body>
+</html>

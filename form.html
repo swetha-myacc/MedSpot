@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospital Login</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .container {
+    background-color: #ffffff;
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  input[type="checkbox"] {
+    margin-bottom: 20px;
+  }
+
+  button {
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+
+  button.google {
+    background-color: #4285f4;
+  }
+
+  .signup {
+    text-align: center;
+  }
+
+  .signup a {
+    color: #007bff;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Hospital Login</h2>
+  <form id="loginForm" action="portal1.html" method="POST">
+    <input type="text" id="username" name="username" placeholder="Username" required>
+    <div class="error-message" id="usernameError" style="display: none;">Please enter a valid username</div>
+    <input type="password" id="password" name="password" placeholder="Password" required>
+    <div class="error-message" id="passwordError" style="display: none;">Please enter a valid password</div>
+    <label>
+      <input type="checkbox" id="rememberMe" name="rememberMe"> Remember Me
+    </label>
+    <button type="submit">Login</button>
+    <button type="button" class="google" id="googleLogin">Login with Google</button>
+  </form>
+  <div class="signup">
+    <p>Don't have an account? <a href="#">Sign up</a></p>
+  </div>
+</div>
+<script>
+document.getElementById("googleLogin").addEventListener("click", function() {
+  alert("Redirecting to Google login...");
+  // Implement Google login redirection logic here
+});
+
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+  var username = document.getElementById("username").value;
+  var password = document.getElementById("password").value;
+  var usernameError = document.getElementById("usernameError");
+  var passwordError = document.getElementById("passwordError");
+  var isValid = true;
+
+  if (username.trim() === "") {
+    usernameError.style.display = "block";
+    isValid = false;
+  } else {
+    usernameError.style.display = "none";
+  }
+
+  if (password.trim() === "") {
+    passwordError.style.display = "block";
+    isValid = false;
+  } else {
+    passwordError.style.display = "none";
+  }
+
+  if (!isValid) {
+    event.preventDefault();
+  }
+});
+</script>
+</body>
+</html>

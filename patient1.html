@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Login</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  #login-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  #login-container h1 {
+    margin-bottom: 20px;
+    color: #007bff;
+  }
+  
+  #login-form input, #login-form select {
+    width: calc(100% - 20px);
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  #login-form button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #login-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  #login-form button:active {
+    background-color: #004080;
+  }
+  
+  #login-form button:focus {
+    outline: none;
+  }
+  
+  #login-form input:focus, #login-form select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+</style>
+</head>
+<body>
+
+<div id="login-container">
+  <h1>Patient Login</h1>
+  <form id="login-form">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <select id="hospital" required>
+      <option value="">Select Hospital</option>
+      <option value="hospital1">Hospital 1</option>
+      <option value="hospital2">Hospital 2</option>
+      <option value="hospital3">Hospital 3</option>
+    </select>
+    <select id="doctor" required>
+      <option value="">Select Doctor</option>
+      <option value="doctor1">Doctor 1</option>
+      <option value="doctor2">Doctor 2</option>
+      <option value="doctor3">Doctor 3</option>
+    </select>
+    <input type="datetime-local" id="time-slot" required>
+    <label><input type="checkbox" id="location-notification"> Turn on location notification</label>
+    <button type="submit">Login</button>
+  </form>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the list of logged in users from localStorage
+    let loggedInUsers = JSON.parse(localStorage.getItem('loggedInUsers')) || [];
+    
+    // Display the list of logged in users
+    const userList = document.getElementById('user-list');
+    userList.innerHTML = loggedInUsers.map(user => `<li>${user.username}</li>`).join('');
+  });
+
+  document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    // Fetch login credentials
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const hospital = document.getElementById('hospital').value;
+    const doctor = document.getElementById('doctor').value;
+    const timeSlot = document.getElementById('time-slot').value;
+    const locationNotification = document.getElementById('location-notification').checked;
+    
+    // Store appointment details in localStorage
+    const appointmentDetails = {
+      username,
+      password,
+      hospital,
+      doctor,
+      timeSlot,
+      locationNotification
+    };
+    localStorage.setItem('appointmentDetails', JSON.stringify(appointmentDetails));
+    
+    // Add the appointment details to the list of logged in users
+    let loggedInUsers = JSON.parse(localStorage.getItem('loggedInUsers')) || [];
+    loggedInUsers.push(appointmentDetails);
+    localStorage.setItem('loggedInUsers', JSON.stringify(loggedInUsers));
+
+    // Redirect to the appointment details page
+    window.location.href = 'appointment.html';
+  });
+</script>
+
+</body>
+</html>
